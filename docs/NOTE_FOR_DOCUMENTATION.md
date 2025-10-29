@@ -1,1 +1,0 @@
-If you want me to create a PR to the `Documentation` repository to add the auth docs, give me the `Documentation` repo URL and I can prepare a patch or open a PR (I need write access to create branches/PRs).
