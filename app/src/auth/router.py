@@ -56,6 +56,18 @@ def change_password(
     return controller.change_password(current_user, password_change)
 
 
+@router.post("/logout")
+def logout(current_user: User = Depends(get_current_active_user)):
+    """
+    Logout do usuário.
+    
+    O cliente deve descartar o token JWT após receber esta resposta.
+    Este endpoint é opcional e serve para logs/auditoria no backend.
+    """
+    controller = AuthController(None)  # Não precisa de DB para logout simples
+    return controller.logout(current_user)
+
+
 @router.get("/users", response_model=List[UserResponse])
 def get_all_users(
     skip: int = 0,
