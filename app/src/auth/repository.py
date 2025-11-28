@@ -50,7 +50,9 @@ class UserRepository(BaseRepository[User, UserCreate, UserUpdate]):
 
         return {"email_exists": email_exists, "username_exists": username_exists}
 
-    def update(self, db: Session, user_id: int, obj_in: UserUpdate) -> User:  # type: ignore[override]
+    def update(
+        self, db: Session, user_id: int, obj_in: UserUpdate
+    ) -> User:  # type: ignore[override]
         db_obj = self.get(db, user_id)
         if db_obj is None:
             raise ValueError(f"User with id {user_id} not found")
