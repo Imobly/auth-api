@@ -26,6 +26,9 @@ class Settings(BaseSettings):
         "postgresql://postgres:admin123@postgres:5432/auth_db",
     )
 
+    DB_SSLMODE: str | None = os.getenv("DB_SSLMODE", "require")
+    DB_SCHEMA: str = os.getenv("DB_SCHEMA", "auth_api")
+
     SECRET_KEY: str = os.getenv("SECRET_KEY", "change-me-in-production")
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
