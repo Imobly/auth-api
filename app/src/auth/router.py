@@ -60,7 +60,7 @@ def change_password(
 def logout(current_user: User = Depends(get_current_active_user)):
     """
     Logout do usuário.
-    
+
     O cliente deve descartar o token JWT após receber esta resposta.
     Este endpoint é opcional e serve para logs/auditoria no backend.
     """

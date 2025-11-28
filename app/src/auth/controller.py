@@ -117,14 +117,14 @@ class AuthController:
     def logout(self, current_user: User) -> dict:
         """
         Logout do usuário.
-        
+
         Nota: Como usamos JWT stateless, o token continua válido até expirar.
         O cliente deve descartar o token localmente.
         Este endpoint serve para logs/auditoria.
         """
         # Aqui você pode adicionar logs de auditoria se necessário
         # logger.info(f"User {current_user.username} (ID: {current_user.id}) logged out")
-        
+
         return {
             "message": "Logout realizado com sucesso",
             "detail": "Token será invalidado pelo cliente"
