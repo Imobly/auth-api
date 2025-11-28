@@ -1,8 +1,4 @@
-from app.src.auth.security import (
-    decode_access_token,
-    get_password_hash,
-    verify_password,
-)
+from app.src.auth.security import decode_access_token, get_password_hash, verify_password
 
 
 def test_decode_invalid_token_returns_none():
