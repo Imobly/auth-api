@@ -21,7 +21,10 @@ class Settings(BaseSettings):
         )
     )
 
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:admin123@postgres:5432/auth_db")
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL",
+        "postgresql://postgres:admin123@postgres:5432/auth_db",
+    )
 
     SECRET_KEY: str = os.getenv("SECRET_KEY", "change-me-in-production")
     ALGORITHM: str = "HS256"
