@@ -4,22 +4,18 @@ from typing import List
 from pydantic_settings import BaseSettings
 
 
-def _split_csv(value: str) -> List[str]:
-    return [item.strip() for item in value.split(",") if item.strip()]
-
-
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Auth API"
     VERSION: str = "0.1.0"
     API_V1_STR: str = "/api/v1"
 
-    # Allow overriding CORS origins via env var comma-separated list
-    CORS_ORIGINS: List[str] = _split_csv(
-        os.getenv(
-            "CORS_ORIGINS",
-            "http://localhost:3000,http://127.0.0.1:3000",
-        )
-    )
+    # CORS origins - accepts comma-separated list from env or defaults to localhost
+    CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
+
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """Parse CORS_ORIGINS string into list"""
+        return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
 
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
