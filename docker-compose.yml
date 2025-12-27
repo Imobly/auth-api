@@ -8,6 +8,7 @@ networks:
 services:
   postgres:
     image: postgres:15
+    profiles: ["local-db"]
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin123
@@ -24,6 +25,7 @@ services:
 
   auth-api:
     build: .
+    container_name: imobly_auth_api
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - ./:/app
@@ -31,13 +33,15 @@ services:
       - "8001:8000"
     env_file:
       - .env
+    environment:
+      - ENVIRONMENT=staging
+      - DATABASE_URL=${DATABASE_URL_HML}
     dns:
       - 8.8.8.8
       - 8.8.4.4
       - 1.1.1.1
-    depends_on:
-      postgres:
-        condition: service_healthy
+    # Quando usar Postgres local, suba com: docker compose --profile local-db up
+    # e adicione a variável DATABASE_URL apontando para postgres:5432
 
 volumes:
   postgres_data:

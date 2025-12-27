@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Auth API"
     VERSION: str = "0.1.0"
     API_V1_STR: str = "/api/v1"
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development").lower()
 
     # CORS origins - accepts comma-separated list from env or defaults to localhost
     CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
@@ -17,9 +18,21 @@ class Settings(BaseSettings):
         """Parse CORS_ORIGINS string into list"""
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
 
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL",
+    # Unified env: prefer DATABASE_URL; else select by ENVIRONMENT
+    DATABASE_URL_DEV: str = os.getenv(
+        "DATABASE_URL_DEV",
         "postgresql://postgres:admin123@postgres:5432/auth_db",
+    )
+    DATABASE_URL_HML: str | None = os.getenv("DATABASE_URL_HML")
+    DATABASE_URL_PROD: str | None = os.getenv("DATABASE_URL_PROD")
+    DATABASE_URL: str = os.getenv("DATABASE_URL") or (
+        DATABASE_URL_DEV
+        if ENVIRONMENT in {"dev", "development"}
+        else (
+            DATABASE_URL_HML
+            if ENVIRONMENT in {"hml", "staging"}
+            else (DATABASE_URL_PROD or DATABASE_URL_DEV)
+        )
     )
 
     DB_SSLMODE: str | None = os.getenv("DB_SSLMODE", "require")
@@ -37,6 +50,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "ignore"
 
 
 settings = Settings()

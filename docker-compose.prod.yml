@@ -13,8 +13,9 @@ services:
     ports:
       - "8001:8000"
     environment:
+      ENVIRONMENT: production
+      DATABASE_URL: ${DATABASE_URL_PROD}
       # Supabase Production Database
-      DATABASE_URL: ${DATABASE_URL}
       DB_SCHEMA: ${DB_SCHEMA:-public}
       
       # Security
